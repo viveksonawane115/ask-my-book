@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  ask-my-book:
+    build: .
+    container_name: ask-my-book
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    volumes:
+      - ./openai_chroma_db:/app/openai_chroma_db
+      - ./hf_chroma_db:/app/hf_chroma_db
+    restart: always
