@@ -363,12 +363,12 @@ with st.sidebar:
     st.divider()
     st.markdown("### ⚙️ Pipeline")
     st.markdown("""
-- Hybrid Retrieval (OpenAI + HuggingFace)
-- Multi-Query Retrieval
-- Cohere Reranking
-- GPT-4o-mini (Groq fallback)
-- RAGAS Evaluation
-- Guardrails & Safety
+1. Multi-Query Retrieval (3 query variants)
+2. Ensemble Retrieval (OpenAI + HuggingFace)
+3. Cohere Reranking (top 3 chunks)
+4. GPT-4o-mini (Groq fallback)
+5. RAGAS Evaluation
+6. Guardrails & Safety
     """)
     st.divider()
     st.markdown(f"**Questions this session:** {st.session_state.question_count}/{MAX_QUESTIONS}")
