@@ -295,8 +295,23 @@ if question:
         except Exception:
             hf_docs = []
 
-        docs_to_use = openai_docs if openai_docs else hf_docs
-        reranked    = reranker.compress_documents(documents=docs_to_use, query=question)
+        # Hybrid retrieval — merge both embedding results
+        all_docs = openai_docs + hf_docs
+
+        # Deduplicate by start_index position
+        seen       = set()
+        unique_docs = []
+        for doc in all_docs:
+            idx = doc.metadata.get('start_index')
+            if idx not in seen:
+                seen.add(idx)
+                unique_docs.append(doc)
+
+        # Rerank combined pool — Cohere picks best 3
+        reranked = reranker.compress_documents(
+            documents=unique_docs,
+            query=question
+        )
         results     = [(doc, doc.metadata.get("relevance_score", 1.0)) for doc in reranked]
 
         answer, llm_used = get_answer(question, results)
