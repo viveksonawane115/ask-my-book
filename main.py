@@ -363,7 +363,7 @@ with st.sidebar:
     st.divider()
     st.markdown("### ⚙️ Pipeline")
     st.markdown("""
-- Dual Embeddings (OpenAI + HuggingFace)
+- Hybrid Retrieval (OpenAI + HuggingFace)
 - Multi-Query Retrieval
 - Cohere Reranking
 - GPT-4o-mini (Groq fallback)
@@ -372,6 +372,17 @@ with st.sidebar:
     """)
     st.divider()
     st.markdown(f"**Questions this session:** {st.session_state.question_count}/{MAX_QUESTIONS}")
+    try:
+        df = pd.read_excel(EXCEL_PATH)
+        st.sidebar.download_button(
+            label="📥 Download Eval Results",
+            data=df.to_csv(index=False),
+            file_name="rag_evaluation_results.csv",
+            mime="text/csv"
+        )
+        st.sidebar.caption(f"{len(df)} evaluations logged")
+    except FileNotFoundError:
+        st.sidebar.caption("No evaluation data yet")
     if st.button("🗑️ Clear Chat"):
         st.session_state.messages = []
         st.session_state.question_count = 0
