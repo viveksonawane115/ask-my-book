@@ -11,4 +11,5 @@ services:
     volumes:
       - ./openai_chroma_db:/app/openai_chroma_db
       - ./hf_chroma_db:/app/hf_chroma_db
+      - ./rag_evaluation_results.xlsx:/app/rag_evaluation_results.xlsx
     restart: always
